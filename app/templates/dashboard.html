@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orange Talent IA - MVP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <header class="bg-black p-5 shadow-md">
+        <h1 class="text-orange-500 font-bold text-2xl tracking-tighter">ORANGE <span class="text-white">TALENT IA</span></h1>
+    </header>
+
+    <main class="max-w-4xl mx-auto mt-12 p-8 bg-white rounded-lg shadow-xl">
+        <div class="border-b-2 border-orange-500 mb-8 pb-4">
+            <h2 class="text-3xl font-extrabold text-gray-800">Pipeline de Recrutement Data/IA</h2>
+            <p class="text-gray-500">MVP - Analyse Multilingue Automatisée</p>
+        </div>
+
+        <section class="bg-orange-50 p-6 rounded-md border border-orange-200">
+            <h3 class="font-bold text-lg mb-4 text-orange-900">Importer un nouveau candidat (PDF)</h3>
+            <form action="/upload" method="post" enctype="multipart/form-data" class="flex items-center space-x-4">
+                <input type="file" name="file" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-500 file:text-white hover:file:bg-orange-600 cursor-pointer">
+                <button type="submit" class="bg-black text-white px-6 py-2 rounded-full font-bold hover:bg-gray-800 transition shadow-lg">Analyser</button>
+            </form>
+        </section>
+
+        <section class="mt-12">
+            <h3 class="font-bold text-xl mb-6 text-gray-700">Candidatures en cours :</h3>
+            <div class="grid grid-cols-1 gap-4">
+                {% for file in files %}
+                <div class="flex items-center justify-between p-4 bg-gray-50 border-l-4 border-black rounded shadow-sm">
+                    <span class="font-medium text-gray-700">{{ file }}</span>
+                    <span class="text-xs font-bold bg-orange-100 text-orange-700 px-3 py-1 rounded-full uppercase">En attente de scoring</span>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+</body>
+</html>
