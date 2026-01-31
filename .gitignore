@@ -32,3 +32,6 @@ data/imports/*
 
 # Uploads (CV confidentiels)
 uploads/
+
+# Database
+*.db

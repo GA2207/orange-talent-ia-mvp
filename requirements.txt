@@ -6,3 +6,4 @@ langdetect
 pymupdf
 openai
 python-dotenv
+sqlalchemy
