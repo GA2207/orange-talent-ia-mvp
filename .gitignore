@@ -29,3 +29,6 @@ data/imports/*
 
 # Logs
 *.log
+
+# Uploads (CV confidentiels)
+uploads/

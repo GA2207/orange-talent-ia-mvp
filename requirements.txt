@@ -4,3 +4,5 @@ python-multipart
 jinja2
 langdetect
 pymupdf
+openai
+python-dotenv
