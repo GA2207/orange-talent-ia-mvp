@@ -17,11 +17,24 @@ class Candidat(Base):
     nom = Column(String(255))
     email = Column(String(255), unique=True, index=True)
     filename = Column(String(255))
-    competences = Column(JSON)  # Liste des competences
-    experience = Column(Text)   # Resume de l'experience
-    points_forts = Column(JSON) # Liste des points forts
+
+    # Donnees extraites du CV
+    competences = Column(JSON)
+    experience = Column(Text)
+    points_forts = Column(JSON)
+    data_json = Column(JSON)
+
+    # Scoring intelligent (Jour 4)
     score_global = Column(Integer, default=0)
-    data_json = Column(JSON)    # Backup du JSON complet de l'IA
+    score_tech = Column(Integer, default=0)
+    score_experience = Column(Integer, default=0)
+    score_cloud = Column(Integer, default=0)
+    explication_score = Column(Text)
+    gaps = Column(JSON)  # Competences manquantes
+    points_forts_match = Column(JSON)  # Competences qui matchent
+    recommandation = Column(String(50))  # SHORTLIST, A_VERIFIER, NON_RETENU
+    flags = Column(JSON)  # Alertes ethiques (Jour 5)
+
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
@@ -29,7 +42,6 @@ class Candidat(Base):
 Base.metadata.create_all(bind=engine)
 
 
-# Fonction utilitaire pour obtenir une session
 def get_db():
     db = SessionLocal()
     try:

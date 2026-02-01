@@ -1,0 +1,10 @@
+{
+  "titre": "Data Engineer Senior",
+  "entreprise": "Orange Business",
+  "skills_requises": ["Python", "SQL", "Airflow", "Docker", "Spark"],
+  "skills_bonus": ["Kafka", "Kubernetes", "dbt"],
+  "experience_min": 3,
+  "mots_cles_cloud": ["AWS", "GCP", "Azure", "Terraform"],
+  "langues": ["Francais", "Anglais"],
+  "description": "Nous recherchons un Data Engineer Senior pour rejoindre notre equipe Data/IA. Vous serez en charge de la conception et du developpement de pipelines de donnees."
+}
