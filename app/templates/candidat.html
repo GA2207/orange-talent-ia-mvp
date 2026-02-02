@@ -46,7 +46,7 @@
 
             <div class="p-6">
                 <!-- Sous-scores -->
-                <div class="grid grid-cols-3 gap-4 mb-8">
+                <div class="grid grid-cols-4 gap-4 mb-8">
                     <div class="bg-gray-50 p-4 rounded-lg text-center">
                         <div class="text-3xl font-bold {% if candidat.score_tech >= 70 %}text-green-600{% elif candidat.score_tech >= 50 %}text-orange-500{% else %}text-red-500{% endif %}">{{ candidat.score_tech }}</div>
                         <div class="text-sm text-gray-500">Score Tech</div>
@@ -58,6 +58,10 @@
                     <div class="bg-gray-50 p-4 rounded-lg text-center">
                         <div class="text-3xl font-bold {% if candidat.score_cloud >= 70 %}text-green-600{% elif candidat.score_cloud >= 50 %}text-orange-500{% else %}text-red-500{% endif %}">{{ candidat.score_cloud }}</div>
                         <div class="text-sm text-gray-500">Cloud/DevOps</div>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg text-center border-2 border-blue-200">
+                        <div class="text-3xl font-bold {% if candidat.score_soft_skills >= 70 %}text-blue-600{% elif candidat.score_soft_skills >= 50 %}text-blue-400{% else %}text-gray-400{% endif %}">{{ candidat.score_soft_skills }}</div>
+                        <div class="text-sm text-blue-700">Soft Skills</div>
                     </div>
                 </div>
 
@@ -74,9 +78,35 @@
                 {% endif %}
 
                 <!-- Explication IA -->
-                <div class="bg-orange-50 border-l-4 border-orange-500 p-4 mb-8">
-                    <h3 class="font-bold text-orange-900 mb-2">Analyse IA</h3>
+                <div class="bg-orange-50 border-l-4 border-orange-500 p-4 mb-6">
+                    <h3 class="font-bold text-orange-900 mb-2">Analyse Technique</h3>
                     <p class="text-gray-700 italic">"{{ candidat.explication_score }}"</p>
+                </div>
+
+                <!-- Section Soft Skills (Jour 7) -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8 rounded-r-lg">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-xl font-bold text-blue-900">Profil Soft Skills</h3>
+                        {% if candidat.culture_fit %}
+                        <span class="{% if candidat.culture_fit == 'Fort' %}bg-green-500{% elif candidat.culture_fit == 'Moyen' %}bg-orange-500{% else %}bg-gray-500{% endif %} text-white px-3 py-1 rounded-full text-xs font-bold">
+                            Culture Fit: {{ candidat.culture_fit }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    {% if candidat.analyse_comportementale %}
+                    <p class="text-gray-700 italic mb-4">"{{ candidat.analyse_comportementale }}"</p>
+                    {% endif %}
+
+                    {% if candidat.soft_skills_detectes %}
+                    <div class="flex flex-wrap gap-2">
+                        {% for skill in candidat.soft_skills_detectes %}
+                        <span class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-xs font-bold uppercase">
+                            {{ skill }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
 
                 <!-- Competences matchees et gaps -->

@@ -113,6 +113,11 @@ async def upload_cv(request: Request, file: UploadFile = File(...), db: Session 
             existing.points_forts_match = scoring_result.get("points_forts_match", [])
             existing.recommandation = scoring_result.get("recommandation", "A_VERIFIER")
             existing.flags = scoring_result.get("flags", [])
+            # Soft Skills (Jour 7)
+            existing.score_soft_skills = scoring_result.get("score_soft_skills", 0)
+            existing.analyse_comportementale = scoring_result.get("analyse_comportementale", "")
+            existing.soft_skills_detectes = scoring_result.get("soft_skills_detectes", [])
+            existing.culture_fit = scoring_result.get("culture_fit", "Moyen")
             db.commit()
             candidat_id = existing.id
         else:
@@ -134,7 +139,12 @@ async def upload_cv(request: Request, file: UploadFile = File(...), db: Session 
                 gaps=scoring_result.get("gaps", []),
                 points_forts_match=scoring_result.get("points_forts_match", []),
                 recommandation=scoring_result.get("recommandation", "A_VERIFIER"),
-                flags=scoring_result.get("flags", [])
+                flags=scoring_result.get("flags", []),
+                # Soft Skills (Jour 7)
+                score_soft_skills=scoring_result.get("score_soft_skills", 0),
+                analyse_comportementale=scoring_result.get("analyse_comportementale", ""),
+                soft_skills_detectes=scoring_result.get("soft_skills_detectes", []),
+                culture_fit=scoring_result.get("culture_fit", "Moyen")
             )
             db.add(nouveau_candidat)
             db.commit()
@@ -173,7 +183,12 @@ async def voir_candidat(request: Request, candidat_id: int, db: Session = Depend
             "gaps": candidat.gaps or [],
             "points_forts_match": candidat.points_forts_match or [],
             "recommandation": candidat.recommandation or "A_VERIFIER",
-            "flags": candidat.flags or []
+            "flags": candidat.flags or [],
+            # Soft Skills (Jour 7)
+            "score_soft_skills": candidat.score_soft_skills or 0,
+            "analyse_comportementale": candidat.analyse_comportementale or "",
+            "soft_skills_detectes": candidat.soft_skills_detectes or [],
+            "culture_fit": candidat.culture_fit or "Moyen"
         }
     })
 

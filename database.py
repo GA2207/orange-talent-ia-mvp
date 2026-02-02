@@ -35,6 +35,12 @@ class Candidat(Base):
     recommandation = Column(String(50))  # SHORTLIST, A_VERIFIER, NON_RETENU
     flags = Column(JSON)  # Alertes ethiques (Jour 5)
 
+    # Soft Skills & Culture Fit (Jour 7)
+    score_soft_skills = Column(Integer, default=0)
+    analyse_comportementale = Column(Text)
+    soft_skills_detectes = Column(JSON)
+    culture_fit = Column(String(50))  # Fort, Moyen, Faible
+
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
