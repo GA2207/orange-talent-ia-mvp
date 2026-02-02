@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import termine - Orange Talent IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <header class="bg-black p-5 shadow-md">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-orange-500 font-bold text-2xl tracking-tighter">ORANGE <span class="text-white">TALENT IA</span></h1>
+            <nav class="flex gap-4">
+                <a href="/" class="text-white hover:text-orange-500 transition font-medium">Dashboard</a>
+                <a href="/shortlist" class="text-white hover:text-orange-500 transition font-medium">Shortlist</a>
+                <a href="/import" class="text-white hover:text-orange-500 transition font-medium">Import CSV</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-2xl mx-auto mt-12 p-8">
+        <!-- Success Card -->
+        <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+            <div class="bg-green-500 p-6 text-white text-center">
+                <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <h2 class="text-2xl font-bold">Import termine avec succes !</h2>
+                <p class="opacity-90 mt-2">{{ filename }}</p>
+            </div>
+
+            <div class="p-6">
+                <!-- Statistiques -->
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <div class="bg-green-50 p-4 rounded-lg text-center border border-green-200">
+                        <div class="text-3xl font-black text-green-600">{{ count_added }}</div>
+                        <div class="text-sm text-green-800">Nouveaux candidats</div>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg text-center border border-blue-200">
+                        <div class="text-3xl font-black text-blue-600">{{ count_updated }}</div>
+                        <div class="text-sm text-blue-800">Mis a jour</div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg text-center border border-gray-200">
+                        <div class="text-3xl font-black text-gray-600">{{ count_skipped }}</div>
+                        <div class="text-sm text-gray-800">Ignores</div>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                    <p class="text-yellow-800 text-sm">
+                        <strong>Prochaine etape :</strong> Les candidats importes ont un score de 0.
+                        Uploadez leurs CV pour calculer leur score automatiquement.
+                    </p>
+                </div>
+
+                <!-- Boutons -->
+                <div class="flex gap-4">
+                    <a href="/" class="flex-1 bg-black text-white px-6 py-3 rounded-lg font-bold hover:bg-gray-800 transition text-center">
+                        Voir le Dashboard
+                    </a>
+                    <a href="/import" class="flex-1 bg-orange-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-orange-600 transition text-center">
+                        Importer un autre fichier
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center py-6 text-gray-400 text-sm">
+        Orange Talent IA - MVP 2025 | La Plateforme Marseille
+    </footer>
+</body>
+</html>

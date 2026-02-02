@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import CSV - Orange Talent IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <header class="bg-black p-5 shadow-md">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-orange-500 font-bold text-2xl tracking-tighter">ORANGE <span class="text-white">TALENT IA</span></h1>
+            <nav class="flex gap-4">
+                <a href="/" class="text-white hover:text-orange-500 transition font-medium">Dashboard</a>
+                <a href="/shortlist" class="text-white hover:text-orange-500 transition font-medium">Shortlist</a>
+                <a href="/import" class="text-orange-500 font-medium">Import CSV</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto mt-12 p-8 bg-white rounded-lg shadow-xl">
+        <div class="border-b-2 border-orange-500 mb-8 pb-4">
+            <h2 class="text-3xl font-extrabold text-gray-800">Import CSV Massif</h2>
+            <p class="text-gray-500">Importez des candidats depuis LinkedIn, Welcome to the Jungle, Indeed...</p>
+        </div>
+
+        <!-- Formulaire d'import -->
+        <section class="bg-orange-50 p-6 rounded-lg border border-orange-200 mb-8">
+            <h3 class="font-bold text-lg mb-4 text-orange-900">Selectionner un fichier CSV</h3>
+            <form action="/import-csv" method="post" enctype="multipart/form-data" class="space-y-4">
+                <input type="file" name="file" accept=".csv" required
+                       class="block w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-500 file:text-white hover:file:bg-orange-600 cursor-pointer">
+                <button type="submit" class="w-full bg-black text-white px-6 py-3 rounded-lg font-bold hover:bg-gray-800 transition shadow-lg">
+                    Importer les candidats
+                </button>
+            </form>
+        </section>
+
+        <!-- Format attendu -->
+        <section class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+            <h3 class="font-bold text-lg mb-4 text-gray-800">Format CSV attendu</h3>
+            <p class="text-gray-600 mb-4">Votre fichier CSV doit contenir les colonnes suivantes :</p>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-gray-800 text-white">
+                            <th class="p-3 text-left">Colonne</th>
+                            <th class="p-3 text-left">Obligatoire</th>
+                            <th class="p-3 text-left">Exemple</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-3 font-mono bg-gray-100">Nom</td>
+                            <td class="p-3"><span class="text-green-600 font-bold">Oui</span></td>
+                            <td class="p-3 text-gray-600">Jean Dupont</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-3 font-mono bg-gray-100">Email</td>
+                            <td class="p-3"><span class="text-green-600 font-bold">Oui</span></td>
+                            <td class="p-3 text-gray-600">jean.dupont@email.com</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-3 font-mono bg-gray-100">Poste</td>
+                            <td class="p-3"><span class="text-gray-400">Non</span></td>
+                            <td class="p-3 text-gray-600">Data Engineer</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-3 font-mono bg-gray-100">Skills</td>
+                            <td class="p-3"><span class="text-gray-400">Non</span></td>
+                            <td class="p-3 text-gray-600">Python, SQL, Airflow</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-3 font-mono bg-gray-100">Source</td>
+                            <td class="p-3"><span class="text-gray-400">Non</span></td>
+                            <td class="p-3 text-gray-600">LinkedIn</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <p class="text-yellow-800 text-sm">
+                    <strong>Note :</strong> Les candidats importes auront un score de 0 jusqu'a ce que leur CV soit analyse.
+                    Vous pourrez ensuite uploader leurs CV pour calculer leur score.
+                </p>
+            </div>
+        </section>
+
+        <!-- Exemple CSV -->
+        <section class="mt-8">
+            <h3 class="font-bold text-lg mb-4 text-gray-800">Exemple de fichier CSV</h3>
+            <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">Nom,Email,Poste,Skills,Source
+Jean Dupont,jean.dupont@email.com,Data Engineer,Python; SQL; Airflow,LinkedIn
+Marie Martin,marie.martin@email.com,Data Scientist,Python; TensorFlow; Spark,Welcome to the Jungle
+Pierre Bernard,pierre.bernard@email.com,ML Engineer,Python; PyTorch; Docker,Indeed</pre>
+        </section>
+
+        <!-- Bouton retour -->
+        <div class="mt-8">
+            <a href="/" class="inline-flex items-center text-orange-500 font-bold hover:text-orange-600 transition">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Retour au dashboard
+            </a>
+        </div>
+    </main>
+
+    <footer class="text-center py-6 text-gray-400 text-sm">
+        Orange Talent IA - MVP 2025 | La Plateforme Marseille
+    </footer>
+</body>
+</html>

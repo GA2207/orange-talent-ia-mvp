@@ -1,0 +1,11 @@
+Nom,Email,Poste,Skills,Source
+Jean Dupont,jean.dupont@orange.com,Data Engineer Senior,Python; SQL; Airflow; Docker; AWS,LinkedIn
+Marie Martin,marie.martin@gmail.com,Data Scientist,Python; TensorFlow; Spark; Machine Learning,Welcome to the Jungle
+Pierre Bernard,pierre.bernard@email.com,ML Engineer,Python; PyTorch; Kubernetes; MLflow,Indeed
+Sophie Leroy,sophie.leroy@company.fr,Ingenieur Data,Python; Scala; Spark; Kafka; GCP,Apec
+Thomas Moreau,thomas.moreau@startup.io,Full Stack Developer,JavaScript; React; Node.js; MongoDB,LinkedIn
+Julie Petit,julie.petit@tech.com,Data Analyst,SQL; Python; Tableau; Power BI,Welcome to the Jungle
+Marc Dubois,marc.dubois@consulting.fr,Cloud Architect,AWS; Terraform; Docker; Kubernetes; Azure,Indeed
+Camille Roux,camille.roux@orange.com,DevOps Engineer,Docker; Kubernetes; Jenkins; GitLab CI; Ansible,Mobilite interne
+Antoine Garcia,antoine.garcia@email.fr,Big Data Engineer,Spark; Hadoop; Hive; Scala; Python,LinkedIn
+Emma Laurent,emma.laurent@data.com,AI Research Engineer,Python; PyTorch; Transformers; NLP; Computer Vision,Conference IA

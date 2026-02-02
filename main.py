@@ -1,5 +1,7 @@
 import os
 import shutil
+import csv
+import io
 from fastapi import FastAPI, UploadFile, File, Request, Depends, Query
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
@@ -190,3 +192,78 @@ async def shortlist(request: Request, db: Session = Depends(get_db)):
         "search_query": "",
         "filter_mode": "shortlist"
     })
+
+
+@app.post("/import-csv")
+async def import_csv(request: Request, file: UploadFile = File(...), db: Session = Depends(get_db)):
+    """
+    Import massif de candidats depuis un fichier CSV.
+    Colonnes attendues: Nom, Email, Poste, Skills, Experience, Source
+    Les candidats importes ont un score de 0 (en attente de CV).
+    """
+    try:
+        content = await file.read()
+        # Gestion encodage UTF-8 avec BOM ou sans
+        try:
+            decoded = content.decode('utf-8-sig')
+        except:
+            decoded = content.decode('utf-8')
+
+        reader = csv.DictReader(io.StringIO(decoded))
+
+        count_added = 0
+        count_updated = 0
+        count_skipped = 0
+
+        for row in reader:
+            email = row.get("Email", "").strip()
+            if not email:
+                count_skipped += 1
+                continue
+
+            # Verification doublon
+            existing = db.query(Candidat).filter(Candidat.email == email).first()
+
+            # Parser les skills (separees par virgules ou point-virgules)
+            skills_raw = row.get("Skills", "") or row.get("Competences", "") or ""
+            skills_list = [s.strip() for s in skills_raw.replace(";", ",").split(",") if s.strip()]
+
+            if existing:
+                # Mise a jour si le profil existe deja
+                if not existing.competences or len(existing.competences) == 0:
+                    existing.competences = skills_list
+                if row.get("Poste"):
+                    existing.experience = f"Poste actuel: {row.get('Poste')}"
+                count_updated += 1
+            else:
+                # Creation d'un nouveau candidat "fantome" (sans CV)
+                nouveau_candidat = Candidat(
+                    nom=row.get("Nom", "").strip() or row.get("Name", "").strip() or "Inconnu",
+                    email=email,
+                    competences=skills_list,
+                    experience=f"Poste: {row.get('Poste', 'Non specifie')}. Source: {row.get('Source', 'CSV Import')}",
+                    score_global=0,
+                    recommandation="A_VERIFIER",
+                    flags=["Import CSV - En attente de CV"]
+                )
+                db.add(nouveau_candidat)
+                count_added += 1
+
+        db.commit()
+
+        return templates.TemplateResponse("import_result.html", {
+            "request": request,
+            "count_added": count_added,
+            "count_updated": count_updated,
+            "count_skipped": count_skipped,
+            "filename": file.filename
+        })
+
+    except Exception as e:
+        return {"error": f"Erreur lors de l'import CSV : {str(e)}"}
+
+
+@app.get("/import")
+async def import_page(request: Request):
+    """Page d'import CSV."""
+    return templates.TemplateResponse("import.html", {"request": request})
