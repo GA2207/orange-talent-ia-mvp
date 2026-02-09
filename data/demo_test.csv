@@ -1,0 +1,4 @@
+Nom,Email,Poste,Skills,Source
+Alice Johnson,alice.johnson@tech.com,Senior Data Engineer,Python; Apache Spark; AWS; Airflow; Docker; Kubernetes; Terraform; SQL; Kafka; dbt,LinkedIn
+Lucas Bernard,lucas.bernard@gmail.com,Data Scientist Junior,Python; Pandas; Scikit-learn; SQL; Jupyter; Git,Welcome to the Jungle
+Marie Fontaine,marie.fontaine@hotmail.fr,Assistante Commerciale,Word; Excel; PowerPoint; Outlook; SAP,Indeed

@@ -282,3 +282,52 @@ async def import_csv(request: Request, file: UploadFile = File(...), db: Session
 async def import_page(request: Request):
     """Page d'import CSV."""
     return templates.TemplateResponse("import.html", {"request": request})
+
+
+@app.get("/api/stats")
+async def api_stats(db: Session = Depends(get_db)):
+    """API JSON : statistiques globales du pipeline (Jour 10)."""
+    total = db.query(Candidat).count()
+    shortlisted = db.query(Candidat).filter(Candidat.recommandation == "SHORTLIST").count()
+    a_verifier = db.query(Candidat).filter(Candidat.recommandation == "A_VERIFIER").count()
+    non_retenus = db.query(Candidat).filter(Candidat.recommandation == "NON_RETENU").count()
+
+    from sqlalchemy import func
+    avg_score = db.query(func.avg(Candidat.score_global)).scalar() or 0
+    avg_tech = db.query(func.avg(Candidat.score_tech)).scalar() or 0
+    avg_soft = db.query(func.avg(Candidat.score_soft_skills)).scalar() or 0
+
+    return {
+        "total_candidats": total,
+        "shortlist": shortlisted,
+        "a_verifier": a_verifier,
+        "non_retenus": non_retenus,
+        "score_moyen_global": round(avg_score, 1),
+        "score_moyen_tech": round(avg_tech, 1),
+        "score_moyen_soft_skills": round(avg_soft, 1)
+    }
+
+
+@app.get("/api/candidat/{candidat_id}")
+async def api_candidat(candidat_id: int, db: Session = Depends(get_db)):
+    """API JSON : scores detailles d'un candidat (Jour 10)."""
+    c = db.query(Candidat).filter(Candidat.id == candidat_id).first()
+    if not c:
+        return {"error": "Candidat non trouve"}
+
+    return {
+        "id": c.id,
+        "nom": c.nom,
+        "scores": {
+            "global": c.score_global,
+            "tech": c.score_tech,
+            "experience": c.score_experience,
+            "cloud": c.score_cloud,
+            "soft_skills": c.score_soft_skills or 0
+        },
+        "recommandation": c.recommandation,
+        "culture_fit": c.culture_fit,
+        "competences": c.competences or [],
+        "gaps": c.gaps or [],
+        "flags": c.flags or []
+    }

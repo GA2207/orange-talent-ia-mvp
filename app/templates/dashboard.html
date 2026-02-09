@@ -10,10 +10,17 @@
     <header class="bg-black p-5 shadow-md">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <h1 class="text-orange-500 font-bold text-2xl tracking-tighter">ORANGE <span class="text-white">TALENT IA</span></h1>
-            <nav class="flex gap-4">
+            <nav class="flex gap-4 items-center">
                 <a href="/" class="text-white hover:text-orange-500 transition font-medium">Dashboard</a>
                 <a href="/shortlist" class="text-white hover:text-orange-500 transition font-medium">Shortlist</a>
                 <a href="/import" class="text-white hover:text-orange-500 transition font-medium">Import CSV</a>
+                <!-- Toggle Mode Anonyme (Jour 9) -->
+                <button id="btn-anonyme" onclick="toggleAnonyme()" class="ml-4 bg-gray-700 text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-gray-600 transition flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"/>
+                    </svg>
+                    <span id="label-anonyme">Mode Anonyme</span>
+                </button>
             </nav>
         </div>
     </header>
@@ -109,8 +116,8 @@
                         {% for c in candidats_db %}
                         <tr class="border-b hover:bg-gray-50 transition border-l-4 {% if c.score_global >= 80 %}border-l-green-500{% elif c.score_global >= 50 %}border-l-orange-500{% else %}border-l-gray-300{% endif %}">
                             <td class="p-4">
-                                <div class="font-bold text-gray-800">{{ c.nom }}</div>
-                                <div class="text-gray-500 text-sm">{{ c.email }}</div>
+                                <div class="font-bold text-gray-800 candidat-nom" data-id="{{ c.id }}" data-real="{{ c.nom }}">{{ c.nom }}</div>
+                                <div class="text-gray-500 text-sm candidat-email" data-real="{{ c.email }}">{{ c.email }}</div>
                                 {% if c.flags %}
                                 <div class="mt-1 flex flex-wrap gap-1">
                                     {% for flag in c.flags[:2] %}
@@ -173,5 +180,49 @@
     <footer class="text-center py-6 text-gray-400 text-sm">
         Orange Talent IA - MVP 2025 | La Plateforme Marseille
     </footer>
+
+    <!-- Script Mode Anonyme (Jour 9) -->
+    <script>
+        let anonymeActif = localStorage.getItem('mode_anonyme') === 'true';
+
+        function appliquerAnonyme() {
+            const noms = document.querySelectorAll('.candidat-nom');
+            const emails = document.querySelectorAll('.candidat-email');
+            const btn = document.getElementById('btn-anonyme');
+            const label = document.getElementById('label-anonyme');
+
+            if (anonymeActif) {
+                noms.forEach(el => {
+                    const id = el.dataset.id || '?';
+                    el.textContent = 'Candidat #' + id;
+                });
+                emails.forEach(el => {
+                    el.textContent = '***@***.***';
+                });
+                btn.classList.remove('bg-gray-700');
+                btn.classList.add('bg-red-600');
+                label.textContent = 'Mode RGPD Actif';
+            } else {
+                noms.forEach(el => {
+                    el.textContent = el.dataset.real || el.textContent;
+                });
+                emails.forEach(el => {
+                    el.textContent = el.dataset.real || el.textContent;
+                });
+                btn.classList.remove('bg-red-600');
+                btn.classList.add('bg-gray-700');
+                label.textContent = 'Mode Anonyme';
+            }
+        }
+
+        function toggleAnonyme() {
+            anonymeActif = !anonymeActif;
+            localStorage.setItem('mode_anonyme', anonymeActif);
+            appliquerAnonyme();
+        }
+
+        // Appliquer au chargement si deja actif
+        document.addEventListener('DOMContentLoaded', appliquerAnonyme);
+    </script>
 </body>
 </html>
